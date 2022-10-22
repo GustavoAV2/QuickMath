@@ -1,0 +1,56 @@
+﻿@using MathMvc.Models;
+
+@{
+    var message = ViewBag.Message;
+    var game = ViewBag.Game;
+    var operation = (char)game.Operation;
+    var results = game.GeneratorResultsWithFakes();
+}
+
+<section class="jumbotron text-center">
+    <div style="margin-top:8%" class="container">
+        <h1 class="jumbotron-heading">
+            @game.FirstNumber @operation @game.LastNumber
+        </h1>
+        <p class="lead text-muted">Solve this challenge if you can!</p>
+        <div style="display: flex; flex-direction: row-reverse; align-items: center; justify-content: center;">
+            <p>
+                @foreach (float result in results)
+                {
+                    <form asp-page="/MathGame/Game" asp-route-returnUrl="@Url.Action("Game", "MathGame")">
+                        <input type="hidden" name="FirstNumber" value=@game.FirstNumber>
+                        <input type="hidden" name="LastNumber" value=@game.LastNumber>
+                        <input type="hidden" name="Operation" value=@game.Operation>
+                        <input type="hidden" name="ChallengesSolve" value=@game.ChallengesSolve>
+                        <input type="hidden" name="ChallengesUnsolved" value=@game.ChallengesUnsolved>
+                        <input type="hidden" name="result" value=@result>
+                        <button class="btn-alternative btn-dark">@result</button>
+                    </form>
+                }
+            </p>
+        </div>
+    </div>
+</section>
+
+<div style="padding-right: 20%; padding-left: 20%;">
+    <div style="display: flex; flex-direction: row; align-content: space-around; justify-content: space-evenly;">
+        <div>
+            <img style="margin: 20px;" height="100px" width="100px" src="~/images/dumb.png" alt="Dumb" /> 
+            <strong style="font-size: 45px;">@ViewBag.Game.ChallengesUnsolved</strong>
+        </div>
+        <div>
+            <img style="margin: 20px;" height="100px" width="100px" src="~/images/right.png" alt="Right" /> 
+            <strong style="font-size: 45px;">@ViewBag.Game.ChallengesSolve</strong>
+        </div>
+    </div>
+</div>
+
+@if (message != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" sttyle="text-align: center;" role="alert">
+        <strong>@message.Content</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}

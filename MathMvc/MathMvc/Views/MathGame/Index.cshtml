@@ -1,0 +1,28 @@
+﻿@using MathMvc.Models;
+@using MathMvc.Models.Enums;
+
+@{
+    GameDifficulty difOp = new();
+}
+
+<form>
+    <label class="form-control" style="padding: 15px; display: flex; justify-content: space-evenly;">
+        <div style="display: flex; flex-direction: row;">
+            Difficulty:
+            <select asp-for="@difOp" name="sources" id="sources" class="custom-select sources" placeholder="Difficulty">
+                <option value=@GameDifficulty.Easy>Easy</option>
+                <option selected value=@GameDifficulty.Normal>Normal</option>
+                <option value=@GameDifficulty.Hard>Hard</option>
+                <option value=@GameDifficulty.Genius>Genius</option>
+            </select>
+        </div>
+
+        <div style="display: flex; flex-direction: row;">
+            @if (difOp.Equals(GameDifficulty.Genius))
+            { <input type="checkbox" name="checkbox-disabled-checked" disabled /> }
+            else
+            { <input type="checkbox" name="checkbox-checked" checked /> }
+            Enable multiple choice
+        </div>
+    </label>
+</form>

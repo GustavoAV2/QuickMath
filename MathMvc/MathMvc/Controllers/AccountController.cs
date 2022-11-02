@@ -7,9 +7,9 @@ namespace MathMvc.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(UserManager<IdentityUser> userManager)
+        public AccountController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
@@ -27,7 +27,7 @@ namespace MathMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

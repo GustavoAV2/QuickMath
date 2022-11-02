@@ -10,8 +10,8 @@ namespace MathMvc.Controllers
     public class MathGameController : Controller
     {
         public Random _random { get; set; }
-        private readonly UserManager<IdentityUser> _userManager;
-        public MathGameController(UserManager<IdentityUser> userManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public MathGameController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
             _random = new Random();

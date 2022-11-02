@@ -29,9 +29,6 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
 
                         @if (SignInManager.IsSignedIn(User))
                         {
@@ -41,7 +38,7 @@
                         }
 
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="MathGame" asp-action="Game">Challenges</a>
+                            <a class="nav-link" asp-area="" asp-controller="MathGame" asp-action="Index">Challenges</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

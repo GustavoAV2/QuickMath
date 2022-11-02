@@ -1,16 +1,19 @@
 ﻿using MathMvc.Models;
 using MathMvc.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Security.Claims;
 
 namespace MathMvc.Controllers
 {
     public class MathGameController : Controller
     {
         public Random _random { get; set; }
-        public MathGameController()
+        private readonly UserManager<IdentityUser> _userManager;
+        public MathGameController(UserManager<IdentityUser> userManager)
         {
+            _userManager = userManager;
             _random = new Random();
         }
 
@@ -62,7 +65,7 @@ namespace MathMvc.Controllers
         [Authorize]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult Game([Bind("FirstNumber,LastNumber,Operation,ChallengesSolve,ChallengesUnsolved")] GameModel game, float result)
+        public async Task<IActionResult> Game([Bind("FirstNumber,LastNumber,Operation,ChallengesSolve,ChallengesUnsolved")] GameModel game, float result)
         {
             if (game.VerifySolution(result))
             {
@@ -73,8 +76,23 @@ namespace MathMvc.Controllers
                 game.ChallengesUnsolved += 1;
                 ViewBag.Message = new { Content = "Errouu feio, errou rude!! Tente novamente...", Solve = false };
             }
-
+            if (game.TotalChallenges() == game.MaxChallenges)
+            {
+                var email = ClaimTypes.Email;
+                //ApplicationUser user = await _userManager.FindByEmailAsync(email);
+                return View();
+            }
             ViewBag.Game = game;
+            return View();
+        }
+
+        [Authorize]
+        public IActionResult GameResult(int challengesSolve, int challengesUnsolved)
+        {
+            var winRate = challengesSolve / challengesUnsolved;
+            ViewData["winRate"] = winRate;
+            ViewData["challengesSolve"] = challengesSolve;
+            ViewData["challengesUnsolved"] = challengesUnsolved;
             return View();
         }
     }

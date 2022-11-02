@@ -8,7 +8,6 @@ namespace MathMvc.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
-        public int MyProperty { get; set; }
 
         public AccountController(UserManager<IdentityUser> userManager)
         {

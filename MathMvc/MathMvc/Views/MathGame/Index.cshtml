@@ -2,27 +2,92 @@
 @using MathMvc.Models.Enums;
 
 @{
-    GameDifficulty difOp = new();
+    GameDifficulty difOp = GameDifficulty.Normal;
 }
 
 <form>
-    <label class="form-control" style="padding: 15px; display: flex; justify-content: space-evenly;">
-        <div style="display: flex; flex-direction: row;">
-            Difficulty:
-            <select asp-for="@difOp" name="sources" id="sources" class="custom-select sources" placeholder="Difficulty">
-                <option value=@GameDifficulty.Easy>Easy</option>
-                <option selected value=@GameDifficulty.Normal>Normal</option>
-                <option value=@GameDifficulty.Hard>Hard</option>
-                <option value=@GameDifficulty.Genius>Genius</option>
-            </select>
-        </div>
+    <div style="display: flex; flex-direction: column; justify-content: center;">
+        <label class="form-control" style="padding: 15px; display: flex; justify-content: space-evenly; flex-direction: row;">
+            <div style="display: flex; flex-direction: row;">
+                Difficulty:
+                <select asp-for="@difOp" name="sources" id="sources" style="border-radius: 5px; margin: 10px; margin-top:0px;" class="custom-select sources" placeholder="Difficulty">
+                    <option value=@GameDifficulty.Easy>Easy</option>
+                    <option selected value=@GameDifficulty.Normal>Normal</option>
+                    <option value=@GameDifficulty.Hard>Hard</option>
+                    <option value=@GameDifficulty.Genius>Genius</option>
+                </select>
+            </div>
 
-        <div style="display: flex; flex-direction: row;">
-            @if (difOp.Equals(GameDifficulty.Genius))
-            { <input type="checkbox" name="checkbox-disabled-checked" disabled /> }
-            else
-            { <input type="checkbox" name="checkbox-checked" checked /> }
-            Enable multiple choice
-        </div>
-    </label>
+            <div style="display: flex; flex-direction: row;">
+                @if (difOp.Equals(GameDifficulty.Genius))
+                {
+                    <input style="margin: 10px; margin-top:0px;" type="checkbox" name="checkbox-disabled-checked" disabled />
+                }
+                else
+                {
+                    <input style="margin: 10px; margin-top:0px;" type="checkbox" name="checkbox-checked" checked />
+                }
+                Enable multiple choice
+            </div>
+            <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+                <div margin: 15px; margin-top:0px; display: flex; justify-content: space-evenly; flex-direction: row;>
+                    <input type="checkbox" checked autocomplete="off"> 
+                    +
+                </div>
+                <div margin: 15px; margin-top:0px; display: flex; justify-content: space-evenly; flex-direction: row;>
+                    <input type="checkbox" checked autocomplete="off">
+                    -
+                </div>
+                <div margin: 15px; margin-top:0px; display: flex; justify-content: space-evenly; flex-direction: row;>
+                    <input type="checkbox" checked autocomplete="off"> 
+                    x
+                </div>
+                <div margin: 15px; margin-top:0px; display: flex; justify-content: space-evenly; flex-direction: row;>
+                    <input type="checkbox" checked autocomplete="off"> 
+                    ÷
+                </div>
+            </div>
+        </label>
+
+        @if (difOp.Equals(GameDifficulty.Easy)){
+            <div class="card border-primary mb-3">
+                <div class="card-header">How does this difficulty work?</div>
+                <div class="card-body text-primary">
+                    <h5 class="card-title">Easy</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+        }
+        @if (difOp.Equals(GameDifficulty.Normal)){
+            <div class="card border-success mb-3">
+                <div class="card-header">How does this difficulty work?</div>
+                <div class="card-body text-success">
+                    <h5 class="card-title">Normal</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+        }
+        @if (difOp.Equals(GameDifficulty.Hard))
+        {
+            <div class="card border-warning mb-3">
+                <div class="card-header">How does this difficulty work?</div>
+                <div class="card-body text-warning">
+                    <h5 class="card-title">Hard</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+        }
+        @if (difOp.Equals(GameDifficulty.Genius))
+        {
+            <div class="card border-danger mb-3">
+                <div class="card-header">How does this difficulty work?</div>
+                <div class="card-body text-danger">
+                    <h5 class="card-title">Genius</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </div>
+        }
+
+        <button class="button-36" role="button">Start challenge</button>
+    </div>
 </form>

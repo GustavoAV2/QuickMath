@@ -5,11 +5,14 @@ namespace MathMvc.Models
     public class GameModel
     {
         public Random _random = new Random();
+
+        public int MaxChallenges = 5;
         public int ChallengesSolve { get; set; } = 0;
         public int ChallengesUnsolved { get; set; } = 0;
         public int FirstNumber { get; set; }
         public int LastNumber { get; set; }
         public Operation Operation { get; set; }
+
         public float ActualResult { 
             get {
                 switch (Operation)
@@ -27,12 +30,15 @@ namespace MathMvc.Models
                 }
             } 
         }
+        public int TotalChallenges()
+        {
+            return ChallengesSolve + ChallengesUnsolved;
+        }
 
         public bool VerifySolution(float number)
         {
             return ActualResult == number;
         }
-
         public IOrderedEnumerable<float> GeneratorResultsWithFakes()
         {
             var list = new List<float>()

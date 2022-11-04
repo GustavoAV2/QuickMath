@@ -1,9 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@model MathMvc.Models.ApplicationUser
 @inject SignInManager<ApplicationUser> SignInManager
 
 @if (SignInManager.IsSignedIn(User))
 {
     <p>Name: @User.Identity?.Name</p><br/>
+    <p>Number of resolved accounts: @Html.DisplayFor(model => model.NumberResolvedAccounts)</p>
+    <p>Number of unresolved accounts: @Html.DisplayFor(model => model.NumberUnresolvedAccounts)</p>
+    <p>Win Rate: @ViewData["WinRate"]</p>
     <p>Authenticated: @User.Identity?.IsAuthenticated</p>
     <hr>
     <a class="nav-link text-blue" asp-area="Identity" asp-controller="Home" asp-action="Index">Back to HomePage...</a>

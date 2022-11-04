@@ -1,11 +1,12 @@
 ﻿@using MathMvc.Models;
 @using MathMvc.Models.Enums;
-
 @{
     GameDifficulty difOp = GameDifficulty.Normal;
 }
 
-<form>
+<link rel="stylesheet" href="~/css/create_game.css" asp-append-version="true" />
+
+<form asp-action="Index" asp-controller="MathGame">
     <div style="display: flex; flex-direction: column; justify-content: center;">
         <label class="form-control" style="padding: 15px; display: flex; justify-content: space-evenly; flex-direction: row;">
             <div style="display: flex; flex-direction: row;">

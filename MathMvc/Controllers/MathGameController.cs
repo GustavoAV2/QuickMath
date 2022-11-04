@@ -53,6 +53,16 @@ namespace MathMvc.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Authorize]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index([Bind("FirstNumber,LastNumber,Operation,ChallengesSolve,ChallengesUnsolved")] GameModel game)
+        {
+
+            return View();
+        }
+
         [Authorize]
         public IActionResult Game()
         {
@@ -78,21 +88,30 @@ namespace MathMvc.Controllers
             }
             if (game.TotalChallenges() == game.MaxChallenges)
             {
-                var email = ClaimTypes.Email;
-                //ApplicationUser user = await _userManager.FindByEmailAsync(email);
-                return View();
+                string userId = _userManager.GetUserId(HttpContext.User);
+                if (userId == null)
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                ApplicationUser user = await _userManager.FindByIdAsync(userId);
+                user.NumberResolvedAccounts += game.ChallengesSolve;
+                user.NumberUnresolvedAccounts += game.ChallengesUnsolved;
+                await _userManager.UpdateAsync(user);
+                return RedirectToAction("Identity", "Home");
+                //return RedirectToAction("GameResult", "MathGame");
             }
             ViewBag.Game = game;
             return View();
         }
 
         [Authorize]
-        public IActionResult GameResult(int challengesSolve, int challengesUnsolved)
+        public IActionResult GameResult()
         {
-            var winRate = challengesSolve / challengesUnsolved;
+            var winRate = ViewBag.Game.ChallengesSolve / ViewBag.Game.ChallengesUnsolved;
             ViewData["winRate"] = winRate;
-            ViewData["challengesSolve"] = challengesSolve;
-            ViewData["challengesUnsolved"] = challengesUnsolved;
+            ViewData["challengesSolve"] = ViewBag.Game.ChallengesSolve;
+            ViewData["challengesUnsolved"] = ViewBag.Game.ChallengesUnsolved;
             return View();
         }
     }

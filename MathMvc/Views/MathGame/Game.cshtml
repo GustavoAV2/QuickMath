@@ -5,9 +5,17 @@
     var game = ViewBag.Game;
     var operation = (char)game.Operation;
     var results = game.GeneratorResultsWithFakes();
+    var resolvedProblems = game.ChallengesSolve + game.ChallengesUnsolved;
+
 }
 
+<link rel="stylesheet" href="~/css/create_game.css" asp-append-version="true" />
+
+
+
 <section class="jumbotron text-center">
+    <p style="font-size: 20px;">@resolvedProblems / @ViewBag.Game.MaxChallenges</p>
+
     <div style="margin-top:8%" class="container">
         <h1 class="jumbotron-heading">
             @game.FirstNumber @operation @game.LastNumber

@@ -285,3 +285,14 @@ input[type="checkbox"] {
         padding: 0 2.6rem;
     }
 }
+
+.btn-dif {
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-dif:hover {
+    background-color: #455EB5
+}
+

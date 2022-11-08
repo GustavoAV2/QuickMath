@@ -1,0 +1,12 @@
+﻿@model MathMvc.Models.GameModel
+
+
+<div class="container">
+    <h2>Result:</h2>
+    <p>Number of resolved accounts: @ViewData["challengesSolve"]</p>
+    <p>Number of unresolved accounts: @ViewData["challengesUnsolved"]</p>
+    <p>Win Rate: @ViewData["winRate"]%</p>
+    <hr>
+    <a class="nav-link text-blue" asp-area="Identity" asp-controller="Home" asp-action="Index">Back to HomePage...</a>
+</div>
+

@@ -11,7 +11,6 @@
 
 <link rel="stylesheet" href="~/css/create_game.css" asp-append-version="true" />
 
-
 <div class="container">
     <section class="jumbotron text-center">
         <p style="font-size: 20px;">@resolvedProblems / @GameModel.MaxChallenges</p>
@@ -25,7 +24,7 @@
                 <p>
                     @foreach (float result in results)
                     {
-                        <form asp-page="/MathGame/Game" asp-route-returnUrl="@Url.Action("Game", "MathGame")">
+                        <form asp-page="/MathGame/TestGame" method="post" asp-route-returnUrl="@Url.Action("TestGame", "MathGame")">
                             <input type="hidden" name="FirstNumber" value=@game.FirstNumber>
                             <input type="hidden" name="LastNumber" value=@game.LastNumber>
                             <input type="hidden" name="Operation" value=@game.Operation>

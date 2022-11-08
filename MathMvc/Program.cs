@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MathMvc.Data;
 using MathMvc.Models;
+using Microsoft.AspNetCore.Hosting;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +17,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.S
     .AddDefaultUI().AddDefaultTokenProviders();
 
 builder.Services.AddRazorPages();
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.

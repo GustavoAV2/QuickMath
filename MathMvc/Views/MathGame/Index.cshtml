@@ -6,12 +6,12 @@
 
 <link rel="stylesheet" href="~/css/create_game.css" asp-append-version="true" />
 
-<form asp-action="Index" asp-controller="MathGame">
+<form asp-action="Index" asp-controller="MathGame" method="post">
     <div style="display: flex; flex-direction: column; justify-content: center;">
         <label class="form-control" style="padding: 15px; display: flex; justify-content: space-evenly; flex-direction: row;">
             <div style="display: flex; flex-direction: row;">
                 Difficulty:
-                <select asp-for="@difOp" name="sources" id="sources" style="border-radius: 5px; margin: 10px; margin-top:0px;" class="custom-select sources" placeholder="Difficulty">
+                <select asp-for="@difOp" name="difficulty" id="sources" style="border-radius: 5px; margin: 10px; margin-top:0px;" class="custom-select sources" placeholder="Difficulty">
                     <option value=@GameDifficulty.Easy>Easy</option>
                     <option selected value=@GameDifficulty.Normal>Normal</option>
                     <option value=@GameDifficulty.Hard>Hard</option>
@@ -22,29 +22,29 @@
             <div style="display: flex; flex-direction: row;">
                 @if (difOp.Equals(GameDifficulty.Genius))
                 {
-                    <input style="margin: 10px; margin-top:0px;" type="checkbox" name="checkbox-disabled-checked" disabled />
+                    <input style="margin: 10px; margin-top:0px;" type="checkbox" name="multiple_choice" disabled />
                 }
                 else
                 {
-                    <input style="margin: 10px; margin-top:0px;" type="checkbox" name="checkbox-checked" checked />
+                    <input style="margin: 10px; margin-top:0px;" type="checkbox" name="multiple_choice" checked />
                 }
                 Enable multiple choice
             </div>
             <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
                 <div margin: 15px; margin-top:0px; display: flex; justify-content: space-evenly; flex-direction: row;>
-                    <input type="checkbox" checked autocomplete="off"> 
+                    <input type="checkbox" checked autocomplete="off" name="sum">
                     +
                 </div>
                 <div margin: 15px; margin-top:0px; display: flex; justify-content: space-evenly; flex-direction: row;>
-                    <input type="checkbox" checked autocomplete="off">
+                    <input type="checkbox" checked autocomplete="off" name="subtraction">
                     -
                 </div>
                 <div margin: 15px; margin-top:0px; display: flex; justify-content: space-evenly; flex-direction: row;>
-                    <input type="checkbox" checked autocomplete="off"> 
+                    <input type="checkbox" checked autocomplete="off" name="multiplication">
                     x
                 </div>
                 <div margin: 15px; margin-top:0px; display: flex; justify-content: space-evenly; flex-direction: row;>
-                    <input type="checkbox" checked autocomplete="off"> 
+                    <input type="checkbox" checked autocomplete="off" name="division">
                     ÷
                 </div>
             </div>
@@ -89,6 +89,7 @@
             </div>
         }
 
+        <br />
         <button class="button-36" role="button">Start challenge</button>
     </div>
 </form>

@@ -2,11 +2,10 @@
     ViewData["Title"] = "Home Page";
 }
 
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 <div class="text-center">
-    <h1 class="display-4">Train your brain!</h1>
+    <a asp-controller="MathGame" asp-action="TestGame">
+        <h1 id="train_button" class="display-4">Train your brain!</h1>
+    </a>
     <p>. . .</p>
-
-    <button class="btn btn-warning">
-        <a asp-controller="MathGame" asp-action="Game">Try a challenge</a>
-    </button>
 </div>

@@ -6,7 +6,7 @@ namespace MathMvc.Models
     {
         public Random _random = new Random();
 
-        public int MaxChallenges = 5;
+        public static int MaxChallenges = 5;
         public int ChallengesSolve { get; set; } = 0;
         public int ChallengesUnsolved { get; set; } = 0;
         public int FirstNumber { get; set; }

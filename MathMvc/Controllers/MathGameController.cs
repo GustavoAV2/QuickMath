@@ -3,7 +3,9 @@ using MathMvc.Models.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 using System.Security.Claims;
+using System.Security.Principal;
 
 namespace MathMvc.Controllers
 {
@@ -17,8 +19,9 @@ namespace MathMvc.Controllers
             _random = new Random();
         }
 
-        public Operation _operationGenerator(int operationNumber)
+        public Operation _operationGenerator(int maxOperationNums)
         {
+            int operationNumber = _random.Next(1, maxOperationNums);
             switch (operationNumber)
             {
                 case 1:
@@ -34,16 +37,23 @@ namespace MathMvc.Controllers
             }
         }
 
-        public GameModel GameChallengeGenerator(int challengesSolve = 0, int challengesUnsolved = 0)
+        public GameModel GameChallengeGenerator(int challengesSolve = 0, int challengesUnsolved = 0, int maxOperationNums = 2,  List<Operation> disableOperation = null)
         {
             int r1 = _random.Next(1000);
             int r2 = _random.Next(2000);
-            int r3 = _random.Next(1,2);
+            Operation op = _operationGenerator(maxOperationNums);
+            if (disableOperation != null)
+            {
+                while (disableOperation.FirstOrDefault(op).Equals(op))
+                {
+                    op = _operationGenerator(maxOperationNums);
+                }
+            }
             return new GameModel()
             {
                 FirstNumber = r1,
                 LastNumber = r2,
-                Operation = _operationGenerator(r3),
+                Operation = op,
                 ChallengesSolve = challengesSolve,
                 ChallengesUnsolved = challengesUnsolved
             };
@@ -57,16 +67,37 @@ namespace MathMvc.Controllers
         [Authorize]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult Index([Bind("FirstNumber,LastNumber,Operation,ChallengesSolve,ChallengesUnsolved")] GameModel game)
+        public IActionResult Index(GameDifficulty difficulty, bool multiple_choice, bool sum, bool subtraction, bool multiplication, bool division)
         {
 
             return View();
         }
 
-        [Authorize]
-        public IActionResult Game()
+        public IActionResult TestGame()
         {
             var game = GameChallengeGenerator();
+            ViewBag.Game = game;
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public IActionResult TestGame([Bind("FirstNumber,LastNumber,Operation,ChallengesSolve,ChallengesUnsolved")] GameModel game, float result)
+        {
+            if (game.VerifySolution(result))
+            {
+                game = GameChallengeGenerator(game.ChallengesSolve + 1, game.ChallengesUnsolved);
+            }
+            else
+            {
+                game.ChallengesUnsolved += 1;
+                ViewBag.Message = new { Content = "Errouu feio, errou rude!! Tente novamente...", Solve = false };
+            }
+            if (game.TotalChallenges() == GameModel.MaxChallenges)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             ViewBag.Game = game;
             return View();
         }
@@ -86,7 +117,7 @@ namespace MathMvc.Controllers
                 game.ChallengesUnsolved += 1;
                 ViewBag.Message = new { Content = "Errouu feio, errou rude!! Tente novamente...", Solve = false };
             }
-            if (game.TotalChallenges() == game.MaxChallenges)
+            if (game.TotalChallenges() == GameModel.MaxChallenges)
             {
                 string userId = _userManager.GetUserId(HttpContext.User);
                 if (userId == null)
@@ -97,9 +128,13 @@ namespace MathMvc.Controllers
                 ApplicationUser user = await _userManager.FindByIdAsync(userId);
                 user.NumberResolvedAccounts += game.ChallengesSolve;
                 user.NumberUnresolvedAccounts += game.ChallengesUnsolved;
+
+                // Save Cookies
+                HttpContext.Response.Cookies.Append("challengesSolve", game.ChallengesSolve.ToString());
+                HttpContext.Response.Cookies.Append("challengesUnsolved", game.ChallengesUnsolved.ToString());
+
                 await _userManager.UpdateAsync(user);
-                return RedirectToAction("Identity", "Home");
-                //return RedirectToAction("GameResult", "MathGame");
+                return RedirectToAction("GameResult");
             }
             ViewBag.Game = game;
             return View();
@@ -108,10 +143,12 @@ namespace MathMvc.Controllers
         [Authorize]
         public IActionResult GameResult()
         {
-            var winRate = ViewBag.Game.ChallengesSolve / ViewBag.Game.ChallengesUnsolved;
+            var challengesSolve = int.Parse(HttpContext.Request.Cookies["challengesSolve"]);
+            var challengesUnsolved = int.Parse(HttpContext.Request.Cookies["challengesUnsolved"]);
+            var winRate = (int)(((float)challengesSolve / GameModel.MaxChallenges) * 100);
             ViewData["winRate"] = winRate;
-            ViewData["challengesSolve"] = ViewBag.Game.ChallengesSolve;
-            ViewData["challengesUnsolved"] = ViewBag.Game.ChallengesUnsolved;
+            ViewData["challengesSolve"] = challengesSolve;
+            ViewData["challengesUnsolved"] = challengesUnsolved;
             return View();
         }
     }

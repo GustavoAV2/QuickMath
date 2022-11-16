@@ -6,8 +6,12 @@ namespace MathMvc.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+<<<<<<< HEAD
         public string UserName { get; set; }
 
+=======
+        
+>>>>>>> 035134c6a68bf7d4d7657daf1daa2d172cc3f91c
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress]
         public string Email { get; set; }

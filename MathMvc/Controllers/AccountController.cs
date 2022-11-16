@@ -67,7 +67,11 @@ namespace MathMvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+<<<<<<< HEAD
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl = "")
+=======
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl = null)
+>>>>>>> 035134c6a68bf7d4d7657daf1daa2d172cc3f91c
         {
             ModelState.Remove("returnUrl");
             if (ModelState.IsValid)
@@ -97,8 +101,40 @@ namespace MathMvc.Controllers
                     return RedirectToLocal(returnUrl);
                 }
             }
+<<<<<<< HEAD
             ModelState.AddModelError("", "Invalid login attempt.");
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout(string returnUrl = null)
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToLocal(returnUrl);
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+=======
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, change to shouldLockout: true
+            var correctedPassword = await _userManager.CheckPasswordAsync(user, model.Password);
+            if (correctedPassword)
+            {
+                var identity = new ClaimsIdentity(IdentityConstants.ApplicationScheme);
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id));
+                identity.AddClaim(new Claim(ClaimTypes.Name, user.UserName));
+                await HttpContext.SignInAsync(
+                    IdentityConstants.ApplicationScheme, new ClaimsPrincipal(identity)
+                );
+                return RedirectToLocal(returnUrl);
+            }
+>>>>>>> 035134c6a68bf7d4d7657daf1daa2d172cc3f91c
+            else
+                return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         [HttpPost]

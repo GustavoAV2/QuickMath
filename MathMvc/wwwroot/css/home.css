@@ -4,7 +4,6 @@
     transition: 1.5s;
 }
 
-<<<<<<< HEAD
 #train_button:hover {
     font-size: 63px;
 }
@@ -31,53 +30,4 @@
 .w3-row-padding a:hover{
     color: black;
 }
-=======
-    #train_button:hover {
-        font-size: 63px;
-    }
 
-
-h1 {
-    color: black;
-    font-family: 'Raleway',sans-serif;
-    font-size: 62px;
-    font-weight: 800;
-    line-height: 72px;
-    margin: 0 0 24px;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-
-h2 {
-    color: black;
-    font-family: 'Raleway',sans-serif;
-    font-size: 30px;
-    font-weight: 800;
-    line-height: 36px;
-    margin: 0 0 24px;
-    text-align: center;
-}
-
-
-p {
-    color: #f8f8f8;
-    font-family: 'Raleway',sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 32px;
-    margin: 0 0 24px;
-}
-
-
-a {
-    color: #c8c8c8;
-    text-decoration: underline;
-}
-
-
-a:hover {
-    color: #1c1c1c;
-    text-decoration: underline;
-}
->>>>>>> 035134c6a68bf7d4d7657daf1daa2d172cc3f91c

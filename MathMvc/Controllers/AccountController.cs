@@ -24,6 +24,7 @@ namespace MathMvc.Controllers
         }
 
         [HttpGet]
+        [Route("register")]
         public IActionResult Register()
         {
             return View();
@@ -33,9 +34,9 @@ namespace MathMvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        [Route("register")]
+        public async Task<ActionResult> Register(RegisterViewModel model, string returnUrl)
         {
-            ModelState.Remove("returnUrl");
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser {
@@ -51,26 +52,24 @@ namespace MathMvc.Controllers
                 }
             }
             ModelState.AddModelError("", "Incorrect data.");
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl = "")
+        [Route("login")]
+        public IActionResult Login()
         {
-            ViewData["ReturnUrl"] = string.IsNullOrEmpty(returnUrl) ? "/" : returnUrl;
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("login")]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                // Require the user to have a confirmed email before they can log on.
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null)
                 {
@@ -81,8 +80,6 @@ namespace MathMvc.Controllers
                         //return View("Error");
                     }
                 }
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, change to shouldLockout: true
                 var correctedPassword = await _userManager.CheckPasswordAsync(user, model.Password);
                 if (correctedPassword)
                 {

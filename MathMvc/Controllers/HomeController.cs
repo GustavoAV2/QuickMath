@@ -21,6 +21,7 @@ namespace MathMvc.Controllers
             return View();
         }
 
+        [Route("identity")]
         public IActionResult Identity()
         {
             string userId = _userManager.GetUserId(HttpContext.User);
@@ -34,6 +35,7 @@ namespace MathMvc.Controllers
             return View(user);
         }
 
+        [Route("error")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

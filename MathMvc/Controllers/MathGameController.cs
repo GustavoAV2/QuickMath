@@ -59,6 +59,7 @@ namespace MathMvc.Controllers
             Operation op = _operationGenerator(maxOperationNums);
             return new GameModel(challengesSolve, challengesUnsolved, op);
         }
+        [Route("mathgame")]
         public IActionResult Index(int tag = 0)
         {
             var _createModel = new CreateChallengeModel();
@@ -75,12 +76,15 @@ namespace MathMvc.Controllers
         [Authorize]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("mathgame")]
         public IActionResult Index([Bind("Difficulty, MultipleChoice")] CreateChallengeModel createModel)
         {
             HttpContext.Response.Cookies.Append("difficulty", createModel.Difficulty.ToString());
-            return RedirectToAction("Game", "MathGame");
+            return RedirectToAction("Game");
         }
 
+        [Route("mathgame/challenge")]
+        [Authorize]
         public IActionResult Game()
         {
             string? difficultyLevel = HttpContext?.Request?.Cookies?["difficulty"];
@@ -94,6 +98,7 @@ namespace MathMvc.Controllers
         [Authorize]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("mathgame/challenge")]
         public async Task<IActionResult> Game([Bind("FirstNumber,LastNumber,Operation,ChallengesSolve,ChallengesUnsolved")] GameModel game, float result)
         {
             var difficultyLevel = HttpContext.Request.Cookies["difficulty"];
@@ -131,6 +136,7 @@ namespace MathMvc.Controllers
         }
 
         [Authorize]
+        [Route("mathgame/challenge/statistics")]
         public IActionResult GameResult()
         {
             var challengesSolve = int.Parse(HttpContext.Request.Cookies["challengesSolve"]);
@@ -142,6 +148,7 @@ namespace MathMvc.Controllers
             return View();
         }
 
+        [Route("testgame")]
         public IActionResult TestGame()
         {
             var game = GameChallengeGenerator();
@@ -152,6 +159,7 @@ namespace MathMvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Route("testgame")]
         public IActionResult TestGame([Bind("FirstNumber,LastNumber,Operation,ChallengesSolve,ChallengesUnsolved")] GameModel game, float result)
         {
             if (game.VerifySolution(result))
@@ -165,7 +173,7 @@ namespace MathMvc.Controllers
             }
             if (game.TotalChallenges() == GameModel.MaxChallenges)
             {
-                return RedirectToAction("Login", "Account", new {returnUrl = "MathGame/Index" });
+                return RedirectToAction("Login", "Account");
             }
             ViewBag.Game = game;
             return View();

@@ -39,6 +39,32 @@
     justify-content: center;
 }
 
+input[type=text]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type=text] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.number {
+    font-size: 60px;
+    width: 40px;
+    margin: 5px;
+    padding: 5px;
+    border: none;
+    border-bottom: solid;
+    border-width: 0 0 2px;
+    outline: 0;
+}
+
+.number:focus {
+    border: none;
+    border-bottom: solid;
+    border-bottom-color: #673FD7;
+}
+
 @media only screen and (max-device-width: 900px) {
     .option-result {
     }
@@ -62,3 +88,18 @@
         flex-direction: column-reverse;
     }
 }
+
+.fade-in {
+    transition: all .75s ease;
+    animation: slideMe .1s ease-in;
+}
+
+@keyframes slideMe {
+    0%{
+        transform: translateX(-500px);
+    }
+    100% {
+        transform: translateX(100px);
+    }
+}
+

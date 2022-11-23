@@ -13,41 +13,41 @@
                 <div class="btn-group btn-group-toggle" style="width: 100%; height: 100%;" data-toggle="buttons">
                     <label class="btn btn-secondary active">
                         @if(Model.Difficulty == @GameDifficulty.Easy){
-                            <input type="radio" name="Difficulty" id="option1" autocomplete="off" value="@GameDifficulty.Easy" checked>
+                            <input type="radio" name="Difficulty" id="option1" autocomplete="off" value="@GameDifficulty.Easy" checked onfocus="setInfo(1)">
                             <p>Easy</p>
                         }
                         else{
-                            <input type="radio" name="Difficulty" id="option1" autocomplete="off" value="@GameDifficulty.Easy">
+                            <input type="radio" name="Difficulty" id="option1" autocomplete="off" value="@GameDifficulty.Easy" onfocus="setInfo(1)">
                             <p>Easy</p>
                         }
                     </label>
                     <label class="btn btn-success">
                         @if(Model.Difficulty == @GameDifficulty.Normal){
-                        <input type="radio" name="Difficulty" id="option2" autocomplete="off" value="@GameDifficulty.Normal" checked>
+                            <input type="radio" name="Difficulty" id="option2" autocomplete="off" value="@GameDifficulty.Normal" checked onfocus="setInfo(2)">
                             <p>Normal</p> 
                         }
                         else{
-                            <input type="radio" name="Difficulty" id="option2" autocomplete="off" value="@GameDifficulty.Normal">
+                            <input type="radio" name="Difficulty" id="option2" autocomplete="off" value="@GameDifficulty.Normal" onfocus="setInfo(2)">
                         <p>Normal</p> 
                         }
                     </label>
                     <label class="btn btn-danger">
                         @if(Model.Difficulty == @GameDifficulty.Hard){
-                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Hard" checked>
+                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Hard" checked onfocus="setInfo(3)">
                         <p>Hard</p>
                         }
                         else{
-                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Hard">
+                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Hard" onfocus="setInfo(3)">
                         <p>Hard</p>
                         }
                     </label>
                     <label class="btn btn-dark">
                         @if(Model.Difficulty == @GameDifficulty.Genius){
-                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Genius" checked>
+                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Genius" checked onfocus="setInfo(4)">
                         <p>Genius</p>
                         }
                         else{
-                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Genius">
+                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Genius" onfocus="setInfo(4)">
                         <p>Genius</p>
                         }
                     </label>
@@ -55,7 +55,7 @@
             </label>
 
             <br />
-            <div class="card border-primary mb-3" id="easy-info">
+            <div class="card border-primary mb-3 fade-in" id="easy-info">
                 <div class="card-header">How does this difficulty work?</div>
                 <div class="card-body text-primary">
                     <h5 class="card-title">Easy</h5>
@@ -93,40 +93,53 @@
     </form>
 </div>
 
-<script>
-    var option1 = document.getElementById("option1");
-    var option2 = document.getElementById("option2");
-    var option3 = document.getElementById("option3");
-    var option4 = document.getElementById("option4");
-    
-    $('#easy-info').css("display", "none");
-    $('#normal-info').css("display", "none");
-    $('#hard-info').css("display", "none");
-    $('#genius-info').css("display", "none");
-
-    function change_info() {
-        console.log('New info')
-        if ($('#option1').is(':checked')) {
-            console.log("Easy Checked")
-            $('#easy-info').css("display", "inherit");
+<script>    
+    function startFunc(){
+        if (document.getElementById("option1").checked){
+            document.getElementById("easy-info").style.display = "flex";
+            document.getElementById("easy-info").toggle = "flex";
         }
-        if ($('#option2').is(':checked')) {
-            console.log("Easy Checked")
-            $('#normal-info').css("display", "inherit");
+        if (document.getElementById("option2").checked) {
+            document.getElementById("normal-info").style.display = "flex";
         }
-        if ($('#option3').is(':checked')) {
-            console.log("Easy Checked")
-            $('#hard-info').css("display", "inherit");
+        if (document.getElementById("option3").checked) {
+            document.getElementById("hard-info").style.display = "flex";
         }
-        if ($('#option4').is(':checked')) {
-            console.log("Easy Checked")
-            $('#genius-info').css("display", "inherit");
+        if (document.getElementById("option4").checked) {
+            document.getElementById("genius-info").style.display = "flex";
         }
-    };
-
-    option1.addEventListener("click", change_info);
-    option2.addEventListener("click", change_info);
-    option3.addEventListener("click", change_info);
-    option4.addEventListener("click", change_info);
     }
+
+    function disableAllInfo(){
+        document.getElementById("easy-info").style.display = "none";
+        document.getElementById("normal-info").style.display = "none";
+        document.getElementById("hard-info").style.display = "none";
+        document.getElementById("genius-info").style.display = "none";
+    }
+
+    function setInfo(infoNum){
+        if (infoNum == 1){
+            console.log("Easy Checked")
+            disableAllInfo();
+            document.getElementById("easy-info").style.display = "flex";
+        }
+        if (infoNum == 2) {
+            console.log("Normal Checked")
+            disableAllInfo();
+            document.getElementById("normal-info").style.display = "flex";
+        }
+        if (infoNum == 3) {
+            console.log("Hard Checked")
+            disableAllInfo();
+            document.getElementById("hard-info").style.display = "flex";
+        }
+        if (infoNum == 4) {
+            console.log("Genius Checked")
+            disableAllInfo();
+            document.getElementById("genius-info").style.display = "flex";
+        }
+    }
+
+    disableAllInfo();
+    startFunc();
 </script>

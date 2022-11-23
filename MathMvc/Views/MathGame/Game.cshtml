@@ -1,12 +1,20 @@
 ﻿@using MathMvc.Models;
-
+@using MathMvc.Models.Enums;
 @{
+    var example_result = "";
     var message = ViewBag.Message;
     var game = ViewBag.Game;
+    var difficulty = ViewBag.Difficulty;
     var operation = (char)game.Operation;
     var results = game.GeneratorResultsWithFakes();
+    if (difficulty == GameDifficulty.Hard || difficulty == GameDifficulty.Genius)
+    {
+        foreach (float result in results)
+        {
+            example_result = result.ToString();
+        }
+    }
     var resolvedProblems = game.ChallengesSolve + game.ChallengesUnsolved;
-
 }
 
 <link rel="stylesheet" href="~/css/create_game.css" asp-append-version="true" />
@@ -21,6 +29,40 @@
                 @game.FirstNumber @operation @game.LastNumber
             </h1>
             <p class="lead text-muted">Solve this challenge if you can!</p>
+        </div>
+    </section>
+
+    <div class="container" style="width: 50%;">
+        <div class="control-cont">
+            <div id="loading" class="loading centralize">
+                <h4 style="padding: 0px; font-size: 5px; color:white;"><strong id="seconds">30s</strong></h4>
+            </div>
+        </div>
+    </div>
+
+    @if (difficulty == GameDifficulty.Hard || difficulty == GameDifficulty.Genius)
+    {
+        <section class ="jumbotron text-center">
+            <div id="options">
+                <form asp-controller="MathGame" asp-action="Game" asp-route-returnUrl="@Url.Action("GameHighLevel", "MathGame")" id="form-high-level">
+                    @for (int index = 0; index < example_result.Length; index ++)
+                    {
+                        <input type="text" name="@index-Number" class="number" placeholder="0" onkeydown="limit(this);" onkeyup="limit(this);">
+                    }
+
+                    <input type="hidden" name="FirstNumber" value=@game.FirstNumber>
+                    <input type="hidden" name="LastNumber" value=@game.LastNumber>
+                    <input type="hidden" name="Operation" value=@game.Operation>
+                    <input type="hidden" name="ChallengesSolve" value=@game.ChallengesSolve>
+                    <input type="hidden" name="ChallengesUnsolved" value=@game.ChallengesUnsolved>
+                    <input type="hidden" name="result" id="result" value="0">
+                </form>
+            </div>
+        </section>
+    }
+    else
+    {
+        <section class ="jumbotron text-center">
             <div id="options">
                 <p>
                     @foreach (float result in results)
@@ -31,15 +73,14 @@
                             <input type="hidden" name="Operation" value=@game.Operation>
                             <input type="hidden" name="ChallengesSolve" value=@game.ChallengesSolve>
                             <input type="hidden" name="ChallengesUnsolved" value=@game.ChallengesUnsolved>
-                            <input type="hidden" name="result" value=@result>
-                            <button class="btn-alternative btn-dark">@result</button>
+                            <input type="hidden" name="result" id="result" value=@result>
+                            <button class="btn-alternative btn-dark" >@result</button>
                         </form>
                     }
                 </p>
             </div>
-        </div>
-    </section>
-
+        </section>
+    }
     <div style="padding-right: 20%; padding-left: 20%;">
         <div style="display: flex; flex-direction: row; align-content: space-around; justify-content: space-evenly;">
             <div>
@@ -55,51 +96,22 @@
 
     @if (message != null)
     {
-        <div class="alert alert-danger alert-dismissible fade show" sttyle="text-align: center;" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show" style="text-align: center;" role="alert">
             <strong>@message.Content</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
         </div>
     }
 
-    <div class="control-cont">
-        <div id="loading" class="loading centralize">
-            <h1><strong id="seconds">20s</strong></h1>
-        </div>
-    </div>
 </div>
 
+<script src="~/js/game.js"></script>
 <script>
+    if (document.getElementById("form-high-level")) {
+        setAutoSubmitInInput();
+    }
+
+    var seconds = 30;
     var width = 100;
-    var seconds = 20;
-    function intervalSeconds(){
-        const second_label = document.getElementById("seconds");
-        if (seconds > 1) {
-            seconds = seconds - 1;
-            second_label.innerHTML = seconds + "s";
-        }
-        else{
-            second_label.innerHTML = "";
-            clearInterval(intervalSeconds);
-        }
-    }
-    function intervalFunction() {
-        const div = document.getElementById("loading");
 
-        if (width > 1) {
-            width = width - 1;
-            div.style.width = width + "%";
-            console.log(width);
-        }
-        else{
-            div.style.width = "0%";
-            div.style.backgroundColor = "white";
-            div.style.border = "none";
-            clearInterval(intervalFunction);
-        }
-    }
-
-    setInterval(intervalFunction, 200);
+    setInterval(intervalFunction, 300);
     setInterval(intervalSeconds, 1000);
 </script>

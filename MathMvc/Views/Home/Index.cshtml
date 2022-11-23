@@ -33,7 +33,7 @@
                         Start!
                     </button>
                 </a>
-                <a asp-controller="Account" asp-action="Login">
+                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "MathGame")">
                     <button class="w3-btn w3-xlarge w3-dark-grey w3-hover-light-grey" style="font-weight:900;">
                         Login
                     </button>
@@ -108,7 +108,7 @@
         }
         else
         {
-            <a asp-controller="Account" asp-action="Login">
+            <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "MathGame")">
                 <div class="w3-third">
                         <div class="w3-card w3-container" style="min-height:460px">
                             <h3>Normal</h3>

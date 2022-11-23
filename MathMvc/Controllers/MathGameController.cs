@@ -1,7 +1,4 @@
-﻿using RestSharp;
-using MathMvc.Models;
-using System.Security.Claims;
-using System.Security.Principal;
+﻿using MathMvc.Models;
 using MathMvc.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
@@ -90,6 +87,7 @@ namespace MathMvc.Controllers
             string? difficultyLevel = HttpContext?.Request?.Cookies?["difficulty"];
             var numOfoperations = GetNumOfOperationsByName(difficultyLevel);
             var game = GameChallengeGenerator(maxOperationNums: numOfoperations);
+            ViewBag.Difficulty = (GameDifficulty)numOfoperations;
             ViewBag.Game = game;
             return View();
         }
@@ -132,6 +130,7 @@ namespace MathMvc.Controllers
                 return RedirectToAction("GameResult");
             }
             ViewBag.Game = game;
+            ViewBag.Difficulty = (GameDifficulty)numOfoperations;
             return View();
         }
 

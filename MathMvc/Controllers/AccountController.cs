@@ -92,7 +92,7 @@ namespace MathMvc.Controllers
                     return RedirectToLocal(returnUrl);
                 }
             }
-            ModelState.AddModelError("", "Invalid login attempt.");
+            ModelState.AddModelError("", "Invalid credentials!");
             return View(model);
         }
 

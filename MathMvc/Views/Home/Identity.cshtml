@@ -3,71 +3,71 @@
 @inject SignInManager<ApplicationUser> SignInManager
 
 <div class="container">
-@if (SignInManager.IsSignedIn(User))
-{
-    <div class="card mb-4">
-        <div class="card-body text-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                class="rounded-circle img-fluid" style="width: 150px;">
-            <h5 class="my-3">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h5>
-            <p class="text-muted mb-1">@User.Identity?.Name</p>
-            <p class="text-muted mb-4">Win Rate: @ViewData["WinRate"]</p>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <div style="display: flex; width: 100%;">
+            <div class="card" style="width: 100%; border-radius: 8px 0px 0px 8px;">
+                <div class="card-body text-center">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                        class="rounded-circle img-fluid" style="width: 150px;">
+                    <h5 class="my-3">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h5>
+                    <p class="text-muted mb-1">@Html.DisplayFor(model => model.UserName)</p>
+                    <p class="text-muted mb-4">Win Rate: @ViewData["WinRate"]%</p>
+                </div>
+            </div>
 
-            <div class="d-flex justify-content-center mb-2">
-                <button type="button" class="btn btn-outline-primary ms-1">Share</button>
+            <div class="card" style="width: 100%; border-radius: 0px 8px 8px 0px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <p class="mb-0">Number of resolved accounts:</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text-muted mb-0">
+                                @Html.DisplayFor(model => model.NumberResolvedAccounts)
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <p class="mb-0">Number of unresolved accounts:</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text-muted mb-0">@Html.DisplayFor(model => model.NumberUnresolvedAccounts)</p>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <p class="mb-0">Win Rate:</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text-muted mb-0">@ViewData["WinRate"]%</p>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <p class="mb-0">Verified E-mail</p>
+                        </div>
+                        <div class="col-sm-3">
+                            <p class="text-muted mb-0">@User.Identity?.IsAuthenticated</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-3">
-                    <p class="mb-0">Number of resolved accounts:</p>
-                </div>
-                <div class="col-sm-9">
-                    <p class="text-muted mb-0">
-                        @Html.DisplayFor(model => model.NumberResolvedAccounts)
-                    </p>
-                </div>
-            </div>
-            <hr>
-
-            <div class="row">
-                <div class="col-sm-3">
-                    <p class="mb-0">Number of unresolved accounts:</p>
-                </div>
-                <div class="col-sm-9">
-                    <p class="text-muted mb-0">@Html.DisplayFor(model => model.NumberUnresolvedAccounts)</p>
-                </div>
-            </div>
-            <hr>
-
-            <div class="row">
-                <div class="col-sm-3">
-                    <p class="mb-0">Win Rate:</p>
-                </div>
-                <div class="col-sm-9">
-                    <p class="text-muted mb-0">@ViewData["WinRate"]</p>
-                </div>
-            </div>
-            <hr>
-
-            <div class="row">
-                <div class="col-sm-3">
-                    <p class="mb-0">Verified E-mail</p>
-                </div>
-                <div class="col-sm-9">
-                    <p class="text-muted mb-0">@User.Identity?.IsAuthenticated</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <a class="nav-link text-blue" asp-area="Identity" asp-controller="Home" asp-action="Index">Back to HomePage...</a>
-}
-else
-{
-    <h3>Você ainda não está logado!</h3>
-    <br />
-    <a class="nav-link text-blue" asp-area="Identity" asp-page="/Account/Login">Sing In to view...</a>
-}
+        
+        <a class="nav-link text-blue" asp-area="Identity" asp-controller="Home" asp-action="Index">Back to HomePage...</a>
+    }
+    else
+    {
+        <h3>Você ainda não está logado!</h3>
+        <br />
+        <a class="nav-link text-blue" asp-area="Identity" asp-page="/Account/Login">Sing In to view...</a>
+    }
 </div>

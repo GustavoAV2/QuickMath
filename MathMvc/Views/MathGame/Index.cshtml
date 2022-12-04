@@ -28,27 +28,27 @@
                         }
                         else{
                             <input type="radio" name="Difficulty" id="option2" autocomplete="off" value="@GameDifficulty.Normal" onfocus="setInfo(2)">
-                        <p>Normal</p> 
+                            <p>Normal</p> 
                         }
                     </label>
                     <label class="btn btn-danger">
                         @if(Model.Difficulty == @GameDifficulty.Hard){
                             <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Hard" checked onfocus="setInfo(3)">
-                        <p>Hard</p>
+                            <p>Hard</p>
                         }
                         else{
                             <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Hard" onfocus="setInfo(3)">
-                        <p>Hard</p>
+                            <p>Hard</p>
                         }
                     </label>
                     <label class="btn btn-dark">
                         @if(Model.Difficulty == @GameDifficulty.Genius){
-                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Genius" checked onfocus="setInfo(4)">
-                        <p>Genius</p>
+                            <input type="radio" name="Difficulty" id="option4" autocomplete="off" value="@GameDifficulty.Genius" checked onfocus="setInfo(4)">
+                            <p>Genius</p>
                         }
                         else{
-                            <input type="radio" name="Difficulty" id="option3" autocomplete="off" value="@GameDifficulty.Genius" onfocus="setInfo(4)">
-                        <p>Genius</p>
+                            <input type="radio" name="Difficulty" id="option4" autocomplete="off" value="@GameDifficulty.Genius" onfocus="setInfo(4)">
+                            <p>Genius</p>
                         }
                     </label>
                 </div>
@@ -97,7 +97,6 @@
     function startFunc(){
         if (document.getElementById("option1").checked){
             document.getElementById("easy-info").style.display = "flex";
-            document.getElementById("easy-info").toggle = "flex";
         }
         if (document.getElementById("option2").checked) {
             document.getElementById("normal-info").style.display = "flex";
